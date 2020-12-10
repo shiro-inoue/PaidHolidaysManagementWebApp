@@ -197,3 +197,82 @@ function createDateControl(month, date) {
     createOption(month, 1, 12, thisMonth);
     createOption(date, 1, datesOfYear[thisMonth - 1], thisDate);
 }
+
+/*
+関数概要：administrationTableに行を挿入する
+引数：obj 行挿入ボタンの情報
+戻り値：無し
+*/
+function insertRow(obj) {
+    let administrationTable = document.getElementById("administrationTable");
+    tr = obj.parentNode.parentNode;
+    // 行挿入ボタンのひとつ上に行を挿入する
+    let index = tr.sectionRowIndex;
+
+    // 残日数が0の時は、行を追加しない
+    if (isZeroDaysLeft(administrationTable.rows[index - 1].cells[3].innerText)) {
+        return;
+    }
+
+    let row = administrationTable.insertRow(index);
+
+    let cell1 = row.insertCell(-1);
+    let cell2 = row.insertCell(-1);
+    let cell3 = row.insertCell(-1);
+    let cell4 = row.insertCell(-1);
+    let cell5 = row.insertCell(-1);
+
+    // idの設定（createDateControlで参照）
+    let month = "month" + (index - ADMINISTRATIONTABLE_ROW_INDEX + ACQUISITIONPLANTABLE_ROW_NUM + 1);
+    let date = "date" + (index - ADMINISTRATIONTABLE_ROW_INDEX + ACQUISITIONPLANTABLE_ROW_NUM + 1);
+
+    cell1.innerHTML = getAdministrationTableCell1HTML(month, date);
+    cell2.innerHTML = getAdministrationTableCell2HTML();
+    cell3.innerHTML = getAdministrationTableCell3HTML();
+    cell4.innerHTML = getAdministrationTableCell4HTML();
+    cell5.innerHTML = getAdministrationTableCell5HTML();
+
+    createDateControl(month, date);
+}
+
+/*
+関数概要：残日数のチェック
+引数：days 残日数
+戻り値：true ゼロではない
+戻り値：false ゼロもしくは未入力
+*/
+function isZeroDaysLeft(days) {
+    console.log("days = " + days);
+    console.log("days.length = " + days.length);
+    if (days.length <= 1) {
+        return true;
+    }
+    let day = parseInt(days.substr(0, days.length - 1));
+    console.log("day = " + day);
+    if (day === 0) {
+        return true;
+    }
+    return false;
+}
+
+/*
+関数概要：administrationTableの最終行を削除する
+引数：obj 行削除ボタンの情報
+戻り値：無し
+*/
+function deleteRow(obj) {
+    let administrationTable = document.getElementById("administrationTable");
+
+    // 6行目以降を削除対象とする
+    if (administrationTable.rows.length == 8) {
+        return;
+    }
+
+    if (!window.confirm("最終行を削除しますか？")) {
+        return;
+    }
+
+    tr = obj.parentNode.parentNode;
+    // 行削除ボタンのひとつ上の行を削除する
+    tr.parentNode.deleteRow(tr.sectionRowIndex - 1);
+}
