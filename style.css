@@ -1,84 +1,76 @@
 .date {
     font-size: small;
-    padding-left: 58%;
     font-weight: bold;
+    padding-left: 58%;
   } 
 
-#readJSON,
-#outputPDF,
-#writeJSON,
-#previewSS {
-  display: none;
-}
-
 /* ボタンのプロパティ */
-
-.buttonbox {
-  widows: 5px;
-  height: 25px;
-  display: inline-block;
-  position: relative;
-  width: 120px;
-  text-align: center;
-  text-decoration: none;
-  color: #1b1b1b;
+.save_buttonbox {
   background: rgb(236, 233, 233);
   border: 1px solid #1b1b1b;
   border-radius: 5px;
+  color: #1b1b1b;
+  display: inline-block;
+  height: 25px;
+  position: relative;
+  text-align: center;
+  text-decoration: none;
+  width: 120px;
+  widows: 5px;
+
 }
 
 table {
   margin: 0 0 30 0;
 }
 
-.StyleTitle {
+h1.main_title {
   border-bottom: solid 1px red;
 }
 
-.StyleTitle2 {
+h2.sub_title {
   margin: 0 0 0 250px;
 }
 
-table.tableStyle thead th {
+table.table_style thead th {
   border-bottom: 3px double;
-  /* font-weight: normal; */
 }
 
-table.tableStyle td {
+table.table_style td {
   border: 1px solid #222;
 }
 
-table.tableStyle th {
+table.table_style th {
   border: 1px solid #222;
 }
 
-table.tableStyle td.ex_border_br {
+table.table_style td.ex_border_br {
   border-bottom: 0px;
   border-right: 0px;
 }
 
-table.tableStyle td.ex_border_t {
+table.table_style td.ex_border_t {
   border-top: 0px;
 }
 
-table.tableStyle td.ex_border_l {
+table.table_style td.ex_border_l {
   border-left: 0px;
 }
 
-table.tableStyle td.ex_border_r {
+table.table_style td.ex_border_r {
   border-right: 0px;
 }
 
-table.tableStyle td.ex_border_tlr {
+table.table_style td.ex_border_tlr {
   border-top: 0px;
   border-bottom: 0px;
   border-left: 0px;
   border-right: 0px;
-  text-align: right;
   font-weight: bold;
+  text-align: right;
 }
 
-table.tableStyle th.ex_border_tblr {
+table.table_style th.ex_border_tblr {
   border-top: 1px;
   border-bottom: 1px;
   border-left: 1px;
@@ -91,7 +83,7 @@ span {
   color: red;
 }
 
-table.tableStyle td.Rowbutton {
+table.table_style td.Rowbutton {
     border-top: 0px;
     border-bottom: 0px;
     border-left: 0px;
