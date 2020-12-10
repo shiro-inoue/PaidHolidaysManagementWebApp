@@ -6,6 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>有給休暇管理表Webアプリ</title>
     <link rel="stylesheet" href="style.css">
+    <script src="tableOperation.js"></script>
+    <script src="constants.js"></script>
 </head>
 
 <body>
@@ -74,45 +76,6 @@
                 <th width="15%">残日数</th>
                 <th width="42%">備考</th>
             </tr>
-            <tr>
-                <td width="12%"> <select id="month" name="month"></select> / <select id="date" name="date"></select>
-                </td>
-                <td width="14%">
-                    <select style="width:98%;" name="区分">
-                        <option value="空白"></option>
-                        <option value="計画年休">計画年休</option>
-                    </select>
-                </td>
-                <td width="15%" style="text-align:right">日</td>
-                <td width="15%" style="text-align:right">日</td>
-                <td width="42%"><input type="text" style="width:98%" value=""></td>
-            </tr>
-            <tr>
-                <td width="12%"> <select id="month" name="month"></select> / <select id="date" name="date"></select>
-                </td>
-                <td width="14%">
-                    <select style="width:98%;" name="区分">
-                        <option value="空白"></option>
-                        <option value="計画年休">計画年休</option>
-                    </select>
-                </td>
-                <td width="15%" style="text-align:right">日</td>
-                <td width="15%" style="text-align:right">日</td>
-                <td width="42%"><input type="text" style="width:98%" value=""></td>
-            </tr>
-            <tr>
-                <td width="12%"> <select id="month" name="month"></select> / <select id="date" name="date"></select>
-                </td>
-                <td width="14%">
-                    <select style="width:98%;" name="区分">
-                        <option value="空白"></option>
-                        <option value="計画年休">計画年休</option>
-                    </select>
-                </td>
-                <td width="15%" style="text-align:right">日</td>
-                <td width="15%" style="text-align:right">日</td>
-                <td width="42%"><input type="text" style="width:98%" value=""></td>
-            </tr>
         </thead>
     </table><br>
 
@@ -134,102 +97,6 @@
                 <th width="15%">取得日数(総数)</th>
                 <th width="15%">残日数</th>
                 <th width="42%">理由</th>
-            </tr>
-            <tr>
-                <td width="12%"> <select id="month" name="month"></select> / <select id="date" name="date"></select>
-                </td>
-                <td width="14%">
-                    <select style="width:98%;" name="区分">
-                        <option value="空白"></option>
-                        <option value="全休">全休</option>
-                        <option value="半休">半休</option>
-                    </select>
-                </td>
-                <td width="15%" style="text-align:right">日</td>
-                <td width="15%" style="text-align:right">日</td>
-                <td width="42%">
-                    <select style="width:98%;" name="区分">
-                        <option value="空白"></option>
-                        <option value="体調不良">体調不調</option>
-                    </select>
-                </td>
-            </tr>
-            <tr>
-                <td width="12%"> <select id="month" name="month"></select> / <select id="date" name="date"></select>
-                </td>
-                <td width="14%">
-                    <select style="width:98%;" name="区分">
-                        <option value="空白"></option>
-                        <option value="全休">全休</option>
-                        <option value="半休">半休</option>
-                    </select>
-                </td>
-                <td width="15%" style="text-align:right">日</td>
-                <td width="15%" style="text-align:right">日</td>
-                <td width="42%">
-                    <select style="width:98%;" name="区分">
-                        <option value="空白"></option>
-                        <option value="体調不良">体調不調</option>
-                    </select></td>
-                </td>
-            </tr>
-            <tr>
-                <td width="12%"> <select id="month" name="month"></select> / <select id="date" name="date"></select>
-                </td>
-                <td width="14%">
-                    <select style="width:98%;" name="区分">
-                        <option value="空白"></option>
-                        <option value="全休">全休</option>
-                        <option value="半休">半休</option>
-                    </select>
-                </td>
-                <td width="15%" style="text-align:right">日</td>
-                <td width="15%" style="text-align:right">日</td>
-                <td width="42%">
-                    <select style="width:98%;" name="区分">
-                        <option value="空白"></option>
-                        <option value="体調不良">体調不調</option>
-                    </select>
-                </td>
-            </tr>
-            <tr>
-                <td width="12%"> <select id="month" name="month"></select> / <select id="date" name="date"></select>
-                </td>
-                <td width="14%">
-                    <select style="width:98%;" name="区分">
-                        <option value="空白"></option>
-                        <option value="全休">全休</option>
-                        <option value="半休">半休</option>
-                    </select>
-                </td>
-                <td width="15%" style="text-align:right">日</td>
-                <td width="15%" style="text-align:right">日</td>
-                <td width="42%">
-                    <select style="width:98%;" name="区分">
-                        <option value="空白"></option>
-                        <option value="体調不良">体調不調</option>
-                    </select>
-                </td>
-            </tr>
-            <tr>
-                <td width="12%">
-                    <select id="month" name="month"></select> / <select id="date" name="date"></select>
-                </td>
-                <td width="14%">
-                    <select style="width:98%;" name="区分">
-                        <option value="空白"></option>
-                        <option value="全休">全休</option>
-                        <option value="半休">半休</option>
-                    </select>
-                </td>
-                <td width="15%" style="text-align:right">日</td>
-                <td width="15%" style="text-align:right">日</td>
-                <td width="42%">
-                    <select style="width:98%;" name="区分">
-                        <option value="空白"></option>
-                        <option value="体調不良">体調不調</option>
-                    </select>
-                </td>
             </tr>
             <tr>
                 <td class="Rowbutton" colspan="1">
@@ -289,73 +156,5 @@
         </tr>
     </table>
 </body>
-
-<script>
-    const year = 2020;
-
-    window.onload = function () {
-        hoge();
-    };
-
-    function hoge() {
-        // ライブラリ
-        /**
-         * 任意の年が閏年であるかをチェックする
-         * @param {number} チェックしたい西暦年号
-         * @return {boolean} 閏年であるかを示す真偽値
-         */
-        const isLeapYear = year => (year % 4 === 0) && (year % 100 !== 0) || (year % 400 === 0);
-
-        /**
-         * 任意の年の2月の日数を数える
-         * @param {number} チェックしたい西暦年号
-         * @return {number} その年の2月の日数
-         */
-        const countDatesOfFeb = year => isLeapYear(year) ? 29 : 28;
-
-        /**
-         * セレクトボックスの中にオプションを生成する
-         * @param {string} セレクトボックスのDOMのid属性値
-         * @param {number} オプションを生成する最初の数値
-         * @param {number} オプションを生成する最後の数値
-         * @param {number} 現在の日付にマッチする数値
-         */
-        const createOption = (id, startNum, endNum, current) => {
-            const selectDom = document.getElementById(id);
-            let optionDom = '';
-            for (let i = startNum; i <= endNum; i++) {
-                if (i === current) {
-                    option = '<option value="' + i + '" selected>' + i + '</option>';
-                } else {
-                    option = '<option value="' + i + '">' + i + '</option>';
-                }
-                optionDom += option;
-            }
-            selectDom.insertAdjacentHTML('beforeend', optionDom);
-        }
-
-        // DOM
-        // const yearBox = document.getElementById('year');
-        const monthBox = document.getElementById('month');
-        const dateBox = document.getElementById('date');
-
-        // 日付データ
-        const today = new Date();
-        const thisYear = today.getFullYear();
-        const thisMonth = today.getMonth() + 1;
-        const thisDate = today.getDate();
-
-        let datesOfYear = [31, countDatesOfFeb(thisYear), 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
-
-        // イベント
-        monthBox.addEventListener("change", (e) => {
-            dateBox.innerHTML = '';
-            const selectedMonth = e.target.value;
-            createOption('date', 1, datesOfYear[selectedMonth - 1], 1);
-        });
-        createOption('month', 1, 12, thisMonth);
-        createOption('date', 1, datesOfYear[thisMonth - 1], thisDate);
-    }
-</script>
 
 </html>
