@@ -275,3 +275,48 @@ function deleteRow(obj) {
     // 行削除ボタンのひとつ上の行を削除する
     tr.parentNode.deleteRow(tr.sectionRowIndex - 1);
 }
+
+/*
+関数概要：入力文字列を最大文字数に丸める
+引数：obj 行の情報
+引数：maxLength 最大文字数
+戻り値：無し
+*/
+function verifyText(obj, maxLength) {
+    let text = obj.value;
+
+    overhangNum = calcOverhangCharNum(text, maxLength);
+    if (overhangNum != 0) {
+        text = text.slice(0, -(overhangNum));
+    }
+
+    obj.value += text;
+}
+
+/*
+関数概要：最大文字数を超えた文字数を算出する
+引数：text 文字列
+引数：maxLength 最大文字数
+戻り値：最大文字数を超えた文字数
+*/
+function calcOverhangCharNum(text, maxLength) {
+    let singleByteCharNum = 0;
+    let overhangNum = 0;
+
+    for (let i = 0; i < text.length; i++) {
+        let chr = text.charCodeAt(i);
+        if ((chr >= 0x00 && chr < 0x81) ||
+            (chr === 0xf8f0) ||
+            (chr >= 0xff61 && chr < 0xffa0) ||
+            (chr >= 0xf8f1 && chr < 0xf8f4)) {
+            singleByteCharNum += 1;
+        } else {
+            singleByteCharNum += 2;
+        }
+
+        if (singleByteCharNum > maxLength) {
+            overhangNum++;
+        }
+    }
+    return overhangNum;
+}
