@@ -261,10 +261,10 @@ function isZeroDaysLeft(days) {
 戻り値：無し
 */
 function deleteRow(obj) {
-    let administrationTable = document.getElementById("administrationTable");
+    tr = obj.parentNode.parentNode;
 
     // 6行目以降を削除対象とする
-    if (administrationTable.rows.length == 8) {
+    if (tr.sectionRowIndex <= ADMINISTRATIONTABLE_ROW_NUM + ADMINISTRATIONTABLE_ROW_INDEX) {
         return;
     }
 
@@ -272,7 +272,6 @@ function deleteRow(obj) {
         return;
     }
 
-    tr = obj.parentNode.parentNode;
     // 行削除ボタンのひとつ上の行を削除する
     tr.parentNode.deleteRow(tr.sectionRowIndex - 1);
 }
