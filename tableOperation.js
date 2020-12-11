@@ -294,10 +294,11 @@ function verifyText(obj, maxLength) {
 
     overhangNum = calcOverhangCharNum(text, maxLength);
     if (overhangNum != 0) {
+        // 文字列の後ろからoverhangNum文字分を削除（半角全角も１文字扱い）
         text = text.slice(0, -(overhangNum));
     }
 
-    obj.value += text;
+    obj.value = text;
 }
 
 /*
@@ -312,6 +313,7 @@ function calcOverhangCharNum(text, maxLength) {
 
     for (let i = 0; i < text.length; i++) {
         let chr = text.charCodeAt(i);
+        // 半角文字の判定
         if ((chr >= 0x00 && chr < 0x81) ||
             (chr === 0xf8f0) ||
             (chr >= 0xff61 && chr < 0xffa0) ||
@@ -322,6 +324,7 @@ function calcOverhangCharNum(text, maxLength) {
         }
 
         if (singleByteCharNum > maxLength) {
+            // 最大文字数を超えた文字数を半角全角どちらも１文字でカウント（半角全角混在を考慮）
             overhangNum++;
         }
     }
