@@ -3,6 +3,11 @@ const ACQUISITIONPLANTABLE_ROW_NUM = 3;
 // acquisitionplanTableに行を挿入するインデックス（0オリジン）
 const ACQUISITIONPLANTABLE_ROW_INDEX = 2;
 
+// 備考欄の最大文字数
+const REMARKSCOL_MAX_CHARNUM = 40;
+// 理由欄の最大文字数
+const REASONCOL_MAX_CHARNUM = 40;
+
 // acquisitionplanTableの日付セルのHTML（idを挿入するために3分割）
 const ACQUISITIONPLANTABLE_CELL1F_HTML = '<select id="';
 const ACQUISITIONPLANTABLE_CELL1M_HTML = '" name="month"></select> / <select id="';
@@ -14,7 +19,7 @@ const ACQUISITIONPLANTABLE_CELL3_HTML = '日';
 // acquisitionplanTableの残日数セルのHTML
 const ACQUISITIONPLANTABLE_CELL4_HTML = '日';
 // acquisitionplanTableの備考セルのHTML
-const ACQUISITIONPLANTABLE_CELL5_HTML = '<input type="text" style="width:98%" value="">';
+const ACQUISITIONPLANTABLE_CELL5_HTML = '<input type="text" style="width:98%" value="" onchange="verifyText(this,' + REMARKSCOL_MAX_CHARNUM + ')">';
 
 // administrationTableの挿入行数
 const ADMINISTRATIONTABLE_ROW_NUM = 5;
@@ -32,4 +37,4 @@ const ADMINISTRATIONTABLE_CELL3_HTML = '日';
 // administrationTableの残日数セルのHTML取得
 const ADMINISTRATIONTABLE_CELL4_HTML = '日';
 // administrationTableの理由セルのHTML取得
-const ADMINISTRATIONTABLE_CELL5_HTML = '<input type="text" style="width:98%" value="">';
+const ADMINISTRATIONTABLE_CELL5_HTML = '<input type="text" style="width:98%" value="" onchange="verifyText(this,' + REASONCOL_MAX_CHARNUM + ')">';
