@@ -18,10 +18,10 @@
     <table id="infoTable" class="tableStyle" border="1" width="70%"
         style="border:none; border-collapse: collapse; font-size:10pt">
         <tr>
-            <td id = "referenceDate" class="ex_border_tlr" colspan="10">基準日：2020/4/1</td>
+            <td id="referenceDate" class="ex_border_tlr" colspan="10">基準日：2020/4/1</td>
         </tr>
         <tr>
-            <td id = "yearEnd" class="ex_border_tlr" colspan="10"><span>年度末（2021/3/31）までに、必ず、５日以上取得してください。</span></td>
+            <td id="yearEnd" class="ex_border_tlr" colspan="10"><span>年度末（2021/3/31）までに、必ず、５日以上取得してください。</span></td>
         </tr>
         <tr>
             <td width="8%" style="font-weight:bold;">社員番号</td>
@@ -34,19 +34,13 @@
             </td>
             <td width="12%" style="font-weight:bold;">前年度繰越日数</td>
             <td width="8%">
-                <select id="carryForwardDays" style="width:60%;" name="前年度">
-                    <option value="10">10</option>
-                    <option value="15">15</option>
-                    <option value="20">20</option>
+                <select id="carryForwardDays" onChange="totalPaid()" style="width:60%;" name="前年度">
                 </select>
                 日
             </td>
             <td width="12%" style="font-weight:bold;">新規付与日数</td>
             <td width="8%">
-                <select id="grantDays" style="width:60%;" name="新規">
-                    <option value="10">10</option>
-                    <option value="15">15</option>
-                    <option value="20">20</option>
+                <select id="grantDays" onChange="totalPaid()" style="width:60%;" name="新規">
                 </select>
                 日
             </td>
@@ -79,7 +73,7 @@
         </thead>
     </table><br>
 
-    <table id="administrationTable" class="tableStyle"  border="1" width="70%"
+    <table id="administrationTable" class="tableStyle" border="1" width="70%"
         style="border:none; border-collapse: collapse; font-size:10pt">
         <thead>
             <tr bgcolor="lightgrey">
@@ -103,7 +97,7 @@
                     <input type="button" value="+" onclick="insertRow(this)">
                     <input type="button" value="-" onclick="deleteRow(this)">
                 </td>
-                <td class="ex_border_tlr"　id = "expiratioDate" colspan="8">有効期限：2021/3/31</td>
+                <td class="ex_border_tlr" 　id="expiratioDate" colspan="8">有効期限：2021/3/31</td>
             </tr>
         </thead>
     </table><br>
