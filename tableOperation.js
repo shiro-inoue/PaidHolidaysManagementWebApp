@@ -1,5 +1,7 @@
 window.onload = function () {
     initTable();
+    // 有給の合計日数 反映
+    totalPaid();
 };
 
 /*
@@ -8,6 +10,11 @@ window.onload = function () {
 戻り値：無し
 */
 function initTable() {
+
+    // テーブル内リストボックスの初期化
+    initCarryForwardDays();
+    initGrantDays();
+
     generateTable(ACQUISITIONPLANTABLE_ROW_NUM, ACQUISITIONPLANTABLE_ROW_INDEX, "acquisitionPlanTable");
     generateTable(ADMINISTRATIONTABLE_ROW_NUM, ADMINISTRATIONTABLE_ROW_INDEX, "administrationTable");
 }
@@ -319,4 +326,65 @@ function calcOverhangCharNum(text, maxLength) {
         }
     }
     return overhangNum;
+}
+
+/*
+関数概要　：前年度繰越日数の初期設定
+引数　　　：なし
+戻り値　　：なし
+メモ      ：https://techacademy.jp/magazine/27133
+*/
+function initCarryForwardDays() {
+
+    let valueList = [
+        0, 0.5, 1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5,
+        5, 5.5, 6, 6.5, 7, 7.5, 8, 8.5, 9, 9.5,
+        10, 10.5, 11, 11.5, 12, 12.5, 13, 13.5, 14, 14.5,
+        15, 15.5, 16, 16.5, 17, 17.5, 18, 18.5, 19, 19.5, 20];
+
+    initListBox('carryForwardDays', valueList);
+}
+
+/*
+関数概要　：新規付与日数の初期設定
+引数　　　：なし
+戻り値　　：なし
+メモ　　　：https://techacademy.jp/magazine/27133
+*/
+function initGrantDays() {
+    
+    let valueList = [0, 1, 2, 3, 4, 5, 10, 11, 12, 14, 16, 18, 20];
+
+    initListBox('grantDays', valueList);
+}
+
+/*
+関数概要　：新規付与日数の初期設定
+引数　　　：listBoxName リストボックス名
+　　　　　：valueList　リストボックスに設定する値
+戻り値　　：なし
+*/
+function initListBox(listBoxName, valueList) {
+    let element = document.getElementById(listBoxName);
+
+    document.createElement('option');
+    for (let i = 0; i < valueList.length; i++) {
+        let option = document.createElement('option');
+        option.setAttribute('value', valueList[i]);
+        option.innerHTML = valueList[i];
+        element.appendChild(option);
+    }
+}
+
+/*
+関数概要　：今年度年休総数に日数を反映
+引数　　　：なし
+戻り値　　：なし
+メモ　　　：https://qiita.com/RyBB/items/c87af2413c34f9367d00
+*/
+function totalPaid() {
+    const carryForwardDays = document.getElementById('carryForwardDays').value;
+    const grantDays = document.getElementById('grantDays').value;
+
+    document.getElementById('totalPaidDays').innerHTML = Number(carryForwardDays) + Number(grantDays) + ' 日';
 }
