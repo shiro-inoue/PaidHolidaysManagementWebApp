@@ -398,23 +398,23 @@ function totalPaid() {
 戻り値　：なし
 */
 function changeClassification(obj) {
-    // 計画年休を選択時
-    if (obj.selectedIndex == 1) {
-        // 前年度繰越日数が入力されているかチェック
-        if (!isEnteredInputColumn("carryForwardDays", false)) {
-            // selectを空白へ戻す
-            obj.selectedIndex = 0;
-            alert(MESSAGE_CARRYFORWARDDAYS_ERROR);
-            return;
-        }
-        // 新規付与日数が入力されているかチェック
-        if (!isEnteredInputColumn("grantDays", true)) {
-            // selectを空白へ戻す
-            obj.selectedIndex = 0;
-            alert(MESSAGE_GRANTDAYS_ERROR);
-            return;
-        }
-    }
+    // // 計画年休を選択時
+    // if (obj.selectedIndex == 1) {
+    //     // 前年度繰越日数が入力されているかチェック
+    //     if (!isEnteredInputColumn("carryForwardDays", false)) {
+    //         // selectを空白へ戻す
+    //         obj.selectedIndex = 0;
+    //         alert(MESSAGE_CARRYFORWARDDAYS_ERROR);
+    //         return;
+    //     }
+    //     // 新規付与日数が入力されているかチェック
+    //     if (!isEnteredInputColumn("grantDays", true)) {
+    //         // selectを空白へ戻す
+    //         obj.selectedIndex = 0;
+    //         alert(MESSAGE_GRANTDAYS_ERROR);
+    //         return;
+    //     }
+    // }
 
     let acquisitionPlanTable = document.getElementById("acquisitionPlanTable");
     tr = obj.parentNode.parentNode;
@@ -456,8 +456,8 @@ function changeClassification(obj) {
                 continue;
             }
 
-            acquisitionPlanTable.rows[i].cells[2].innerText = "日";
-            acquisitionPlanTable.rows[i].cells[3].innerText = "日";
+            acquisitionPlanTable.rows[i].cells[2].innerText = ACQUISITIONPLANTABLE_CELL3_HTML;
+            acquisitionPlanTable.rows[i].cells[3].innerText = ACQUISITIONPLANTABLE_CELL4_HTML;
         }
         else {
             // ここには来ないはず
@@ -465,26 +465,26 @@ function changeClassification(obj) {
     }
 }
 
-/*
-関数概要　：欄が入力されているかのチェック
-引数　　　：id コントロールid
-         ：flag ゼロチェックするしない
-戻り値　　：true 入力済み
-         ：false 未入力
-メモ     ：前年度繰越日数および新規付与日数のチェック用
-*/
-function isEnteredInputColumn(id, flag) {
-    let inputColumn = document.getElementById(id);
-    // console.log("inputColumn.value = " + inputColumn.value);
-    // 未入力の場合
-    if (inputColumn.value == "") {
-        return false;
-    }
-    if (flag) {
-        // ゼロの場合
-        if (inputColumn.value == 0) {
-            return false;
-        }
-    }
-    return true;
-}
+// /*
+// 関数概要　：欄が入力されているかのチェック
+// 引数　　　：id コントロールid
+//          ：flag ゼロチェックするしない
+// 戻り値　　：true 入力済み
+//          ：false 未入力
+// メモ     ：前年度繰越日数および新規付与日数のチェック用
+// */
+// function isEnteredInputColumn(id, flag) {
+//     let inputColumn = document.getElementById(id);
+//     // console.log("inputColumn.value = " + inputColumn.value);
+//     // 未入力の場合
+//     if (inputColumn.value == "") {
+//         return false;
+//     }
+//     if (flag) {
+//         // ゼロの場合
+//         if (inputColumn.value == 0) {
+//             return false;
+//         }
+//     }
+//     return true;
+// }
