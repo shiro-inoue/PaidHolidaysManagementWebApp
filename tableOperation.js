@@ -1,3 +1,8 @@
+// 取得日数(総数)
+let totalAcquisitionDays = 0;
+// 残日数
+let RemainDays = 0;
+
 window.onload = function () {
     initTable();
     // 有給の合計日数 反映
@@ -216,8 +221,8 @@ function insertRow(obj) {
     // 行挿入ボタンのひとつ上に行を挿入する
     let index = tr.sectionRowIndex;
 
-    // 残日数が0の時は、行を追加しない
-    if (isZeroDaysLeft(administrationTable.rows[index - 1].cells[3].innerText)) {
+    // 残日数が0.5日未満の時は、行を追加しない
+    if (isPaidDaysLeft(administrationTable.rows[index - 1].cells[3].innerText)) {
         return;
     }
 
@@ -245,18 +250,18 @@ function insertRow(obj) {
 /*
 関数概要：残日数のチェック
 引数：days 残日数
-戻り値：true ゼロではない
-戻り値：false ゼロもしくは未入力
+戻り値：true 0.5日以上
+戻り値：false 0.5日未満もしくは未入力
 */
-function isZeroDaysLeft(days) {
+function isPaidDaysLeft(days) {
     console.log("days = " + days);
     console.log("days.length = " + days.length);
     if (days.length <= 1) {
         return true;
     }
-    let day = parseInt(days.substr(0, days.length - 1));
+    let day = Number(days.substr(0, days.length - 1));
     console.log("day = " + day);
-    if (day === 0) {
+    if (day < 0.5) {
         return true;
     }
     return false;
@@ -393,7 +398,7 @@ function totalPaid() {
 }
 
 /*
-関数概要：acquisitionPlanTableの区分を変更した時に呼び出される
+関数概要：acquisitionPlanTableおよびadministrationTableの区分を変更した時に呼び出される
 引数    ：obj 区分コントロールの情報
 戻り値　：なし
 */
@@ -416,51 +421,167 @@ function changeClassification(obj) {
     //     }
     // }
 
-    let acquisitionPlanTable = document.getElementById("acquisitionPlanTable");
     tr = obj.parentNode.parentNode;
     let index = tr.sectionRowIndex;
+    // 区分が操作されたテーブルID
+    let tableID = obj.parentNode.parentNode.parentNode.parentNode.id;
     // console.log("index = " + index);
+    // console.log("tableID = " + tableID);
 
     // 今年度年休総数
-    let totalPaidDays = document.getElementById("totalPaidDays");
+    totalPaidDays = document.getElementById("totalPaidDays");
     // 取得日数(総数)
-    let totalAcquisitionDays = 0;
+    totalAcquisitionDays = 0;
     // 残日数 ← "日"を削除して、数値(小数点も入る)へ変換
-    let RemainDays = Number(totalPaidDays.innerText.slice(0, -1));
+    RemainDays = Number(totalPaidDays.innerText.slice(0, -1));
     // console.log("totalPaidDays.innerText = " + totalPaidDays.innerText);
     // console.log("RemainDays = " + RemainDays);
 
+    let paidDays = 0;
+    paidDays = checkAcquisitionPlanTableDaysInfo();
+    paidDays += checkAdministrationTableDaysInfo();
+    // console.log("paidDays = " + paidDays);
+    // 区分指定された年休が取得できるか？
+    if (RemainDays < paidDays) {
+        alert(MESSAGE_TOTALPAIDDAYS_ERROR);
+        // selectを空白へ戻す
+        obj.selectedIndex = 0;
+    }
+    else {
+        // 区分コントロールが選択されたテーブルにだけindexを渡す
+        updateAcquisitionPlanTable((tableID == "acquisitionPlanTable") ? index : -1);
+        updateAdministrationTable((tableID == "administrationTable") ? index : -1);
+    }
+}
+
+/*
+関数概要：acquisitionPlanTableの取得日の確認
+引数    ：無し
+戻り値　：acquisitionPlanTableの取得日
+*/
+function checkAcquisitionPlanTableDaysInfo() {
+    let paidDays = 0;
+    let acquisitionPlanTable = document.getElementById("acquisitionPlanTable");
+
     for (let i = ACQUISITIONPLANTABLE_ROW_INDEX; i < acquisitionPlanTable.rows.length; i++) {
-        // 区分が変更された行の処理
+        let selectCell = acquisitionPlanTable.rows[i].cells[1].children[0];
+
+        switch (selectCell.selectedIndex) {
+            case 0: // 空白
+                break;
+
+            case 1: // 契約年休
+                paidDays++;
+                break;
+
+            default: // その他
+        }
+    }
+    // console.log("checkAcquisitionPlanTableDaysInfo = " + paidDays);
+    return paidDays;
+}
+
+/*
+関数概要：administrationTableの取得日の確認
+引数    ：無し
+戻り値　：administrationTableの取得日
+*/
+function checkAdministrationTableDaysInfo() {
+    let paidDays = 0;
+    let administrationTable = document.getElementById("administrationTable");
+
+    for (let i = ADMINISTRATIONTABLE_ROW_INDEX; i < administrationTable.rows.length - 1; i++) {
+        let selectCell = administrationTable.rows[i].cells[1].children[0];
+
+        switch (selectCell.selectedIndex) {
+            case 0: // 空白
+                break;
+
+            case 1: // 全休
+                paidDays++;
+                break;
+
+            case 2: // 午前半休
+            case 3: // 午後半休
+                paidDays += 0.5;
+                break;
+
+            default: // その他
+        }
+    }
+    // console.log("checkAdministrationTableDaysInfo = " + paidDays);
+    return paidDays;
+}
+
+/*
+関数概要：acquisitionPlanTableの更新
+引数    ：index 操作された区分コントロールのインデックス
+戻り値　：無し
+*/
+function updateAcquisitionPlanTable(index) {
+    let acquisitionPlanTable = document.getElementById("acquisitionPlanTable");
+
+    for (let i = ACQUISITIONPLANTABLE_ROW_INDEX; i < acquisitionPlanTable.rows.length; i++) {
+        // 各行の処理
         let selectCell = acquisitionPlanTable.rows[i].cells[1].children[0];
         // console.log("selectCell.selectedIndex = " + selectCell.selectedIndex);
 
-        // 計画年休を選択時
-        if (selectCell.selectedIndex == 1) {
-            // 今年度年休総数が不足している場合
-            if (RemainDays < 1.0) {
-                alert(MESSAGE_TOTALPAIDDAYS_ERROR);
-                // selectを空白へ戻す
-                obj.selectedIndex = 0;
-                continue;
-            }
+        switch (selectCell.selectedIndex) {
+            case 0: // 空白
+                // 区分が変更された行の場合
+                if (i == index) {
+                    acquisitionPlanTable.rows[i].cells[2].innerText = getAcquisitionplanTableCell3HTML();
+                    acquisitionPlanTable.rows[i].cells[3].innerText = getAcquisitionplanTableCell4HTML();
+                }
+                break;
 
-            // 取得日数（通算）、残日数を更新する
-            acquisitionPlanTable.rows[i].cells[2].innerText = ++totalAcquisitionDays + "日";
-            acquisitionPlanTable.rows[i].cells[3].innerText = --RemainDays + "日";
-        }
-        // 空白を選択時
-        else if (selectCell.selectedIndex == 0) {
-            // 区分が変更された行でない場合、処理対象外
-            if (i != index) {
-                continue;
-            }
+            case 1: // 契約年休
+                // 取得日数（通算）、残日数を更新する
+                acquisitionPlanTable.rows[i].cells[2].innerText = (++totalAcquisitionDays).toFixed(1) + "日";
+                acquisitionPlanTable.rows[i].cells[3].innerText = (--RemainDays).toFixed(1) + "日";
+                break;
 
-            acquisitionPlanTable.rows[i].cells[2].innerText = ACQUISITIONPLANTABLE_CELL3_HTML;
-            acquisitionPlanTable.rows[i].cells[3].innerText = ACQUISITIONPLANTABLE_CELL4_HTML;
+            default: // その他
         }
-        else {
-            // ここには来ないはず
+    }
+}
+
+/*
+関数概要：administrationTableの更新
+引数    ：index 操作された区分コントロールのインデックス
+戻り値　：無し
+*/
+function updateAdministrationTable(index) {
+    let administrationTable = document.getElementById("administrationTable");
+
+    for (let i = ADMINISTRATIONTABLE_ROW_INDEX; i < administrationTable.rows.length - 1; i++) {
+        // 各行の処理
+        let selectCell = administrationTable.rows[i].cells[1].children[0];
+        // console.log("selectCell.selectedIndex = " + selectCell.selectedIndex);
+
+        switch (selectCell.selectedIndex) {
+            case 0: // 空白
+                // 区分が変更された行の場合
+                if (i == index) {
+                    administrationTable.rows[i].cells[2].innerText = getAdministrationTableCell3HTML();
+                    administrationTable.rows[i].cells[3].innerText = getAdministrationTableCell4HTML();
+                }
+                break;
+
+            case 1: // 全休
+                // 取得日数（通算）、残日数を更新する
+                administrationTable.rows[i].cells[2].innerText = (++totalAcquisitionDays).toFixed(1) + "日";
+                administrationTable.rows[i].cells[3].innerText = (--RemainDays).toFixed(1) + "日";
+                break;
+
+            case 2: // 午前半休
+            case 3: // 午後半休
+                // 取得日数（通算）、残日数を更新する
+                administrationTable.rows[i].cells[2].innerText = (totalAcquisitionDays += 0.5).toFixed(1) + "日";
+                administrationTable.rows[i].cells[3].innerText = (RemainDays -= 0.5).toFixed(1) + "日";
+                break;
+
+            default: // その他
         }
     }
 }
