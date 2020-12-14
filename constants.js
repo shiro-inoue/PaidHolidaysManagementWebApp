@@ -13,7 +13,7 @@ const ACQUISITIONPLANTABLE_CELL1F_HTML = '<select id="';
 const ACQUISITIONPLANTABLE_CELL1M_HTML = '" name="month"></select> / <select id="';
 const ACQUISITIONPLANTABLE_CELL1R_HTML = '" name="date"></select>';
 // acquisitionplanTableの区分セルのHTML
-const ACQUISITIONPLANTABLE_CELL2_HTML = '<select name="区分"><option value="空白"></option><option value="計画年休">計画年休</option></select>';
+const ACQUISITIONPLANTABLE_CELL2_HTML = '<select name="区分" onChange="changeClassification(this)"><option value="空白"></option><option value="計画年休">計画年休</option></select>';
 // acquisitionplanTableの取得日数(通算)セルのHTML
 const ACQUISITIONPLANTABLE_CELL3_HTML = '日';
 // acquisitionplanTableの残日数セルのHTML
@@ -38,3 +38,11 @@ const ADMINISTRATIONTABLE_CELL3_HTML = '日';
 const ADMINISTRATIONTABLE_CELL4_HTML = '日';
 // administrationTableの理由セルのHTML取得
 const ADMINISTRATIONTABLE_CELL5_HTML = '<input type="text" style="width:98%" value="" onchange="verifyText(this,' + REASONCOL_MAX_CHARNUM + ')">';
+
+// メッセージ 前年度繰越日数が未入力：「前年度繰越日数を入力してください。」
+const MESSAGE_CARRYFORWARDDAYS_ERROR = "前年度繰越日数を入力してください。";
+// メッセージ 新規付与日数が未入力：「新規付与日数を入力してください。」
+const MESSAGE_GRANTDAYS_ERROR = "新規付与日数を入力してください。";
+
+// メッセージ 今年度年休総数がゼロ：「今年度年休総数が不足しています。」
+const MESSAGE_TOTALPAIDDAYS_ERROR = "今年度年休総数が不足しています。";

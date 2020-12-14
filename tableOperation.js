@@ -355,7 +355,7 @@ function initCarryForwardDays() {
 メモ　　　：https://techacademy.jp/magazine/27133
 */
 function initGrantDays() {
-    
+
     let valueList = [0, 1, 2, 3, 4, 5, 10, 11, 12, 14, 16, 18, 20];
 
     initListBox('grantDays', valueList);
@@ -364,7 +364,7 @@ function initGrantDays() {
 /*
 関数概要　：新規付与日数の初期設定
 引数　　　：listBoxName リストボックス名
-　　　　　：valueList　リストボックスに設定する値
+     ：valueList　リストボックスに設定する値
 戻り値　　：なし
 */
 function initListBox(listBoxName, valueList) {
@@ -390,4 +390,101 @@ function totalPaid() {
     const grantDays = document.getElementById('grantDays').value;
 
     document.getElementById('totalPaidDays').innerHTML = Number(carryForwardDays) + Number(grantDays) + ' 日';
+}
+
+/*
+関数概要：acquisitionPlanTableの区分を変更した時に呼び出される
+引数    ：obj 区分コントロールの情報
+戻り値　：なし
+*/
+function changeClassification(obj) {
+    // 計画年休を選択時
+    if (obj.selectedIndex == 1) {
+        // 前年度繰越日数が入力されているかチェック
+        if (!isEnteredInputColumn("carryForwardDays", false)) {
+            // selectを空白へ戻す
+            obj.selectedIndex = 0;
+            alert(MESSAGE_CARRYFORWARDDAYS_ERROR);
+            return;
+        }
+        // 新規付与日数が入力されているかチェック
+        if (!isEnteredInputColumn("grantDays", true)) {
+            // selectを空白へ戻す
+            obj.selectedIndex = 0;
+            alert(MESSAGE_GRANTDAYS_ERROR);
+            return;
+        }
+    }
+
+    let acquisitionPlanTable = document.getElementById("acquisitionPlanTable");
+    tr = obj.parentNode.parentNode;
+    let index = tr.sectionRowIndex;
+    // console.log("index = " + index);
+
+    // 今年度年休総数
+    let totalPaidDays = document.getElementById("totalPaidDays");
+    // 取得日数(総数)
+    let totalAcquisitionDays = 0;
+    // 残日数 ← "日"を削除して、数値(小数点も入る)へ変換
+    let RemainDays = Number(totalPaidDays.innerText.slice(0, -1));
+    // console.log("totalPaidDays.innerText = " + totalPaidDays.innerText);
+    // console.log("RemainDays = " + RemainDays);
+
+    for (let i = ACQUISITIONPLANTABLE_ROW_INDEX; i < acquisitionPlanTable.rows.length; i++) {
+        // 区分が変更された行の処理
+        let selectCell = acquisitionPlanTable.rows[i].cells[1].children[0];
+        // console.log("selectCell.selectedIndex = " + selectCell.selectedIndex);
+
+        // 計画年休を選択時
+        if (selectCell.selectedIndex == 1) {
+            // 今年度年休総数が不足している場合
+            if (RemainDays < 1.0) {
+                alert(MESSAGE_TOTALPAIDDAYS_ERROR);
+                // selectを空白へ戻す
+                obj.selectedIndex = 0;
+                continue;
+            }
+
+            // 取得日数（通算）、残日数を更新する
+            acquisitionPlanTable.rows[i].cells[2].innerText = ++totalAcquisitionDays + "日";
+            acquisitionPlanTable.rows[i].cells[3].innerText = --RemainDays + "日";
+        }
+        // 空白を選択時
+        else if (selectCell.selectedIndex == 0) {
+            // 区分が変更された行でない場合、処理対象外
+            if (i != index) {
+                continue;
+            }
+
+            acquisitionPlanTable.rows[i].cells[2].innerText = "日";
+            acquisitionPlanTable.rows[i].cells[3].innerText = "日";
+        }
+        else {
+            // ここには来ないはず
+        }
+    }
+}
+
+/*
+関数概要　：欄が入力されているかのチェック
+引数　　　：id コントロールid
+         ：flag ゼロチェックするしない
+戻り値　　：true 入力済み
+         ：false 未入力
+メモ     ：前年度繰越日数および新規付与日数のチェック用
+*/
+function isEnteredInputColumn(id, flag) {
+    let inputColumn = document.getElementById(id);
+    // console.log("inputColumn.value = " + inputColumn.value);
+    // 未入力の場合
+    if (inputColumn.value == "") {
+        return false;
+    }
+    if (flag) {
+        // ゼロの場合
+        if (inputColumn.value == 0) {
+            return false;
+        }
+    }
+    return true;
 }
