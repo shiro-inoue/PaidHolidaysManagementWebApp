@@ -31,7 +31,7 @@ const ADMINISTRATIONTABLE_CELL1F_HTML = '<select id="';
 const ADMINISTRATIONTABLE_CELL1M_HTML = '" name="month"></select> / <select id="';
 const ADMINISTRATIONTABLE_CELL1R_HTML = '" name="date"></select>';
 // administrationTableの区分セルのHTML取得
-const ADMINISTRATIONTABLE_CELL2_HTML = '<select style="width:98%;" name="区分"><option value="空白"></option><option value="全休">全休</option><option value="午前半休">午前半休</option><option value="午後半休">午後半休</option></select>';
+const ADMINISTRATIONTABLE_CELL2_HTML = '<select style="width:98%;" name="区分" onChange="changeClassification(this)"><option value="空白"></option><option value="全休">全休</option><option value="午前半休">午前半休</option><option value="午後半休">午後半休</option></select>';
 // administrationTableの取得日数(通算)セルのHTML取得
 const ADMINISTRATIONTABLE_CELL3_HTML = '';
 // administrationTableの残日数セルのHTML取得
