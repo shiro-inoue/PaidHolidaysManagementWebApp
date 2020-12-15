@@ -11,12 +11,11 @@
 </head>
 
 <body>
-    <h1 class="StyleTitle ">有給休暇管理表Webアプリ</h1>
-    <h2 id="titleYear" class="StyleTitle2">2020年度　年次有給休暇管理表</h2>
-    <div class="buttonbox">ファイル保存</div>
+    <h1 class="main_title ">有給休暇管理表Webアプリ</h1>
+    <h2 id="titleYear" class="sub_title">2020年度　年次有給休暇管理表</h2>
+    <div class="save_buttonbox">ファイル保存</div>
 
-    <table id="infoTable" class="tableStyle" border="1" width="70%"
-        style="border:none; border-collapse: collapse; font-size:10pt">
+    <table id="infoTable" class="table_style" border="1">
         <tr>
             <td id="referenceDate" class="ex_border_tlr" colspan="10">基準日：2020/4/1</td>
         </tr>
@@ -24,41 +23,41 @@
             <td id="yearEnd" class="ex_border_tlr" colspan="10"><span>年度末（2021/3/31）までに、必ず、５日以上取得してください。</span></td>
         </tr>
         <tr>
-            <td width="8%" style="font-weight:bold;">社員番号</td>
+            <td width="8%" class = "table_sub_title">社員番号</td>
             <td width="9%">
                 <input id="employeeNumber" type="text" size="6" style="padding:0 0 0 0;width:95%;height:100%;">
             </td>
-            <td width="8%" style="font-weight:bold;">氏名</td>
+            <td width="8%" class = "table_sub_title">氏名</td>
             <td width="15%">
                 <input id="name" type="text" style="width:95%;">
             </td>
-            <td width="12%" style="font-weight:bold;">前年度繰越日数</td>
+            <td width="12%" class = "table_sub_title">前年度繰越日数</td>
             <td width="8%">
                 <select id="carryForwardDays" onChange="totalPaid()" style="width:60%;" name="前年度">
                 </select>
                 日
             </td>
-            <td width="12%" style="font-weight:bold;">新規付与日数</td>
+            <td width="12%" class = "table_sub_title">新規付与日数</td>
             <td width="8%">
                 <select id="grantDays" onChange="totalPaid()" style="width:60%;" name="新規">
                 </select>
                 日
             </td>
-            <td width="12%" style="font-weight:bold;">今年度年休総数</td>
+            <td width="12%" class = "table_sub_title">今年度年休総数</td>
             <td width="8%">
                 <div id="totalPaidDays">20日</div>
             </td>
         </tr>
     </table><br>
 
-    <table id="acquisitionPlanTable" class="tableStyle" border="1" width="70%"
-        style="border-collapse: collapse; font-size:10pt">
+    <table id="acquisitionPlanTable" class="table_style" border="1">
         <thead>
             <tr bgcolor="lightgrey">
                 <td class="ex_border_r" colspan="2" width="25%" style="text-align:left; font-weight:bold;">年次有給休暇取得計画希望書
                 </td>
-                <td class="ex_border_l" colspan="3" width="72%" style="text-align:left; font-weight:bold;">
-                    <span>対象者：入社３年目以降（入社２年目までは記入しないでください。）</span></td>
+                <td class="ex_border_l" colspan="3" width="72%" font-weight:bold;">
+                    <span>対象者：入社３年目以降（入社２年目までは記入しないでください。）</span>
+                </td>
             </tr>
             <tr bgcolor="lightgrey">
                 <th width="11%">日付</th>
@@ -73,14 +72,14 @@
         </thead>
     </table><br>
 
-    <table id="administrationTable" class="tableStyle" border="1" width="70%"
-        style="border:none; border-collapse: collapse; font-size:10pt">
+    <table id="administrationTable" class="table_style" border="1">
         <thead>
             <tr bgcolor="lightgrey">
                 <td class="ex_border_r" colspan="2" width="25%" style="text-align:left; font-weight:bold;">年次有給休暇管理表
                 </td>
-                <td class="ex_border_l" colspan="3" width="72%" style="text-align:left; font-weight:bold;">
-                    <span>↓　計画年休の対象者は、取得日数を4.0日または3.5日から開始してください。</span></td>
+                <td class="ex_border_l" colspan="3" width="72%" font-weight:bold;">
+                    <span>↓　計画年休の対象者は、取得日数を4.0日または3.5日から開始してください。</span>
+                </td>
             </tr>
             <tr bgcolor="lightgrey">
                 <th width="11%">日付</th>
@@ -102,50 +101,50 @@
         </thead>
     </table><br>
 
-    <table class="tableStyle" id="ruleTable" border="1" width="70%" style="border-collapse: collapse; font-size:10pt">
+    <table class="table_style" id="ruleTable" border="1">
         <tr bgcolor="lightgrey">
             <td class="ex_border_br" colspan="3" width="100%" style="text-align:left; font-weight:bold;">計画年休運用ルール</td>
         </tr>
         <tr>
             <td class="ex_border_t" bgcolor="lightgrey" width="5%"></td>
-            <td width="45%" style="text-align:left">本社勤務者</td>
-            <td width="45%" style="text-align:left">客先勤務者</td>
+            <td class = "rule_message">本社勤務者</td>
+            <td class = "rule_message">客先勤務者</td>
         </tr>
         <tr>
             <td class="ex_border_br" width="5%">1</td>
-            <td class="ex_border_l" colspan="2" width="45%" style="text-align:left">対象者</td>
+            <td class="ex_border_l" colspan="2" width="45%">対象者</td>
         </tr>
         <tr>
             <td class="ex_border_t" width="5%"></td>
-            <td width="45%" style="text-align:left">入社３年目以降の社員</td>
-            <td width="45%" style="text-align:left">同左</td>
+            <td class = "rule_message">入社３年目以降の社員</td>
+            <td class = "rule_message">同左</td>
         </tr>
         <tr>
             <td class="ex_border_br" width="5%">2</td>
-            <td class="ex_border_l" colspan="2" width="45%" style="text-align:left">時期および日数</td>
+            <td class="ex_border_l" colspan="2" width="45%">時期および日数</td>
         </tr>
         <tr>
             <td class="ex_border_t" width="5%"></td>
-            <td width="45%" style="text-align:left">７月～９月の間で<span>連続</span>３日間を取得すること。</td>
-            <td width="45%" style="text-align:left">
+            <td class = "rule_message">７月～９月の間で<span>連続</span>３日間を取得すること。</td>
+            <td class = "rule_message">
                 ①事業所毎の年間カレンダーに年休一斉付与日が設定されている場合は、当該日を優先して指定する事。<br>②３日から上記①を除いた日数を４月～翌年３月の間で指定すること。</th>
         </tr>
         <tr>
             <td class="ex_border_br" width="5%">3</td>
-            <td class="ex_border_l" colspan="2" width="45%" style="text-align:left">申出方法</td>
+            <td class="ex_border_l" colspan="2" width="45%">申出方法</td>
         </tr>
         <tr>
             <td class="ex_border_t" width="5%"></td>
-            <td width="45%" style="text-align:left">4/30までにチーム長へ希望日を申し出て、承認を得ること。</td>
-            <td width="45%" style="text-align:left">初日の休暇取得希望日の1ケ月前までにチーム長へ申し出て、承認を得ること。</td>
+            <td  class = "rule_message">4/30までにチーム長へ希望日を申し出て、承認を得ること。</td>
+            <td  class = "rule_message">初日の休暇取得希望日の1ケ月前までにチーム長へ申し出て、承認を得ること。</td>
         </tr>
         <tr>
             <td class="ex_border_br" width="5%">※</td>
-            <td class="ex_border_l" colspan="2" width="45%" style="text-align:left">注意事項</td>
+            <td class="ex_border_l" colspan="2" width="45%">注意事項</td>
         </tr>
         <tr>
             <td class="ex_border_t" width="5%"></td>
-            <td colspan="2" width="45%" style="text-align:left"><span>承認後の日程変更は原則認められません。必ず３日取得するようにしてください。</spa>
+            <td colspan="2" class = "rule_message"><span>承認後の日程変更は原則認められません。必ず３日取得するようにしてください。</spa>
             </td>
         </tr>
     </table>
