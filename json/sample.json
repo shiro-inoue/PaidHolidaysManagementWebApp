@@ -1,0 +1,54 @@
+{
+  "keyword": "PHMWebApp",
+  "employeeNumber": "202001",
+  "name": "ソーバル 太郎",
+  "carryForwardDays": "5.5",
+  "grantDays": "12",
+  "ReferenceDate": "2020",
+  "acquisitionPlanTable": [
+    {
+      "month": "7",
+      "date": "20",
+      "classification": "計画年休",
+      "remarks": "家族旅行のため１"
+    },
+    {
+      "month": "7",
+      "date": "21",
+      "classification": "計画年休",
+      "remarks": "家族旅行のため２"
+    },
+    {
+      "month": "7",
+      "date": "22",
+      "classification": "計画年休",
+      "remarks": "家族旅行のため３"
+    }
+  ],
+  "administrationTable": [
+    {
+      "month": "4",
+      "date": "9",
+      "classification": "午後半休",
+      "reason": "私用のため１"
+    },
+    {
+      "month": "4",
+      "date": "28",
+      "classification": "全休",
+      "reason": "私用のため２"
+    },
+    {
+      "month": "4",
+      "date": "29",
+      "classification": "全休",
+      "reason": "私用のため３"
+    },
+    {
+      "month": "6",
+      "date": "16",
+      "classification": "午前半休",
+      "reason": "体調不良のため"
+    }
+  ]
+}
