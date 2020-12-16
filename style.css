@@ -20,6 +20,10 @@
   widows: 5px;
 }
 
+.file_select {
+  display: none;
+}
+
 table {
   margin: 0 0 30 0;
 }
@@ -77,6 +81,16 @@ table.table_style td.ex_border_tlr {
   border-right: 0px;
   font-weight: bold;
   text-align: right;
+}
+
+table.table_style td.ex_border_tlr_r {
+  border-top: 0px;
+  border-bottom: 0px;
+  border-left: 0px;
+  border-right: 0px;
+  font-weight: bold;
+  text-align: right;
+  color : red;
 }
 
 table.table_style th.ex_border_tblr {

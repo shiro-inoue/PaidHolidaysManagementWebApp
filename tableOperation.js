@@ -1,3 +1,5 @@
+// 基準日
+let referenceDate = 0;
 // 取得日数(総数)
 let totalAcquisitionDays = 0;
 // 残日数
@@ -7,6 +9,7 @@ window.onload = function () {
     initTable();
     // 有給の合計日数 反映
     totalPaid();
+    autoReflectDate();
 };
 
 /*
@@ -16,12 +19,26 @@ window.onload = function () {
 */
 function initTable() {
 
+    setReferenceDate();
+
     // テーブル内リストボックスの初期化
     initCarryForwardDays();
     initGrantDays();
 
     generateTable(ACQUISITIONPLANTABLE_ROW_NUM, ACQUISITIONPLANTABLE_ROW_INDEX, "acquisitionPlanTable");
     generateTable(ADMINISTRATIONTABLE_ROW_NUM, ADMINISTRATIONTABLE_ROW_INDEX, "administrationTable");
+}
+
+/*
+関数概要：基準日の設定
+引数：無し
+戻り値：無し
+*/
+function setReferenceDate() {
+    // 日付から基準年を算出
+    let date = new Date();
+    let month = date.getMonth() + 1;
+    referenceDate = (month > 3) ? date.getFullYear() : date.getFullYear() - 1;
 }
 
 /*
@@ -167,7 +184,7 @@ function getAdministrationTableCell5HTML() {
 戻り値：無し
 */
 function createDateControl(month, date) {
-    const baseYear = 2020;
+    const baseYear = referenceDate;
     const isLeapYear = year => (year % 4 === 0) && (year % 100 !== 0) || (year % 400 === 0);
 
     const countDatesOfFeb = year => isLeapYear(year) ? 29 : 28;
@@ -395,6 +412,9 @@ function totalPaid() {
     const grantDays = document.getElementById('grantDays').value;
 
     document.getElementById('totalPaidDays').innerHTML = Number(carryForwardDays) + Number(grantDays) + ' 日';
+
+    // 残日数
+    RemainDays = Number(carryForwardDays) + Number(grantDays);
 }
 
 /*
@@ -428,8 +448,8 @@ function changeClassification(obj) {
     // console.log("index = " + index);
     // console.log("tableID = " + tableID);
 
-    // 今年度年休総数
-    totalPaidDays = document.getElementById("totalPaidDays");
+    // // 今年度年休総数
+    // totalPaidDays = document.getElementById("totalPaidDays");
     // 取得日数(総数)
     totalAcquisitionDays = 0;
     // 残日数 ← "日"を削除して、数値(小数点も入る)へ変換
@@ -470,7 +490,7 @@ function checkAcquisitionPlanTableDaysInfo() {
             case 0: // 空白
                 break;
 
-            case 1: // 契約年休
+            case 1: // 計画年休
                 paidDays++;
                 break;
 
@@ -535,7 +555,7 @@ function updateAcquisitionPlanTable(index) {
                 }
                 break;
 
-            case 1: // 契約年休
+            case 1: // 計画年休
                 // 取得日数（通算）、残日数を更新する
                 acquisitionPlanTable.rows[i].cells[2].innerText = (++totalAcquisitionDays).toFixed(1) + "日";
                 acquisitionPlanTable.rows[i].cells[3].innerText = (--RemainDays).toFixed(1) + "日";
@@ -609,3 +629,111 @@ function updateAdministrationTable(index) {
 //     }
 //     return true;
 // }
+
+/*
+関数概要　：JSONデータをTableへ設定
+引数　　　：jsonParse JSONデータ
+戻り値　　：
+*/
+function setJSONData(jsonParse) {
+    if (!confirm(MESSAGE_READPAIDDAYSDATA_CONFIRM)) {
+        return;
+    }
+
+    // 基準日の設定
+    // console.log("ReferenceDate    = " + jsonParse.ReferenceDate);
+    referenceDate = jsonParse.ReferenceDate;
+
+    setInfoTableTable(jsonParse);
+    setAcquisitionPlanTable(jsonParse);
+    setAdministrationTable(jsonParse);
+
+    // 有給の合計日数 反映
+    totalPaid();
+
+    updateAcquisitionPlanTable(-1);
+    updateAdministrationTable(-1);
+}
+
+/*
+関数概要　：JSONデータをinfoTableへ設定
+引数　　　：jsonParse JSONデータ
+戻り値　　：
+*/
+function setInfoTableTable(jsonParse) {
+    let infoTable = document.getElementById("infoTable");
+    // console.log("keyword          = " + jsonParse.keyword);
+    // console.log("employeeNumber   = " + jsonParse.employeeNumber);
+    // console.log("name             = " + jsonParse.name);
+    // console.log("carryForwardDays = " + jsonParse.carryForwardDays);
+    // console.log("grantDays        = " + jsonParse.grantDays);
+    (infoTable.rows[INFOTABLE_ROW_INDEX].cells[INFOTABLE_EMPL_CELLS]).getElementsByTagName("input")[0].value = jsonParse.employeeNumber;
+    (infoTable.rows[INFOTABLE_ROW_INDEX].cells[INFOTABLE_NAME_CELLS]).getElementsByTagName("input")[0].value = jsonParse.name;
+    (infoTable.rows[INFOTABLE_ROW_INDEX].cells[INFOTABLE_CARR_CELLS]).getElementsByTagName("select")[0].value = jsonParse.carryForwardDays;
+    (infoTable.rows[INFOTABLE_ROW_INDEX].cells[INFOTABLE_GRAN_CELLS]).getElementsByTagName("select")[0].value = jsonParse.grantDays;
+
+    // JSON読込時に前年度繰越日数および新規付与日数を編集不可とする実装（サーバー側では実装必要）
+    // (infoTable.rows[INFOTABLE_ROW_INDEX].cells[5]).getElementsByTagName("select")[0].disabled = true;
+    // (infoTable.rows[INFOTABLE_ROW_INDEX].cells[7]).getElementsByTagName("select")[0].disabled = true;
+}
+
+/*
+関数概要　：JSONデータをacquisitionPlanTableへ設定
+引数　　　：jsonParse JSONデータ
+戻り値　　：
+*/
+function setAcquisitionPlanTable(jsonParse) {
+    let acquisitionPlanTable = document.getElementById("acquisitionPlanTable");
+    // console.log("jsonParse.acquisitionPlanTable.length = " + jsonParse.acquisitionPlanTable.length);
+    jsonParse.acquisitionPlanTable.forEach((acqTbl, i) => {
+        // console.log("acqTbl.month          = " + acqTbl.month);
+        // console.log("acqTbl.date           = " + acqTbl.date);
+        // console.log("acqTbl.classification = " + acqTbl.classification);
+        // console.log("acqTbl.remarks        = " + acqTbl.remarks);
+        (acquisitionPlanTable.rows[ACQUISITIONPLANTABLE_ROW_INDEX + i].cells[ACQUTABLE_MONT_CELLS]).getElementsByTagName("select")[ACQUTABLE_MONT_CEIDX].value = acqTbl.month;
+        (acquisitionPlanTable.rows[ACQUISITIONPLANTABLE_ROW_INDEX + i].cells[ACQUTABLE_DATE_CELLS]).getElementsByTagName("select")[ACQUTABLE_DATE_CEIDX].value = acqTbl.date;
+        (acquisitionPlanTable.rows[ACQUISITIONPLANTABLE_ROW_INDEX + i].cells[ACQUTABLE_CLAS_CELLS]).getElementsByTagName("select")[0].value = acqTbl.classification;
+        (acquisitionPlanTable.rows[ACQUISITIONPLANTABLE_ROW_INDEX + i].cells[ACQUTABLE_REMA_CELLS]).getElementsByTagName("input")[0].value = acqTbl.remarks;
+    });
+}
+
+/*
+関数概要　：JSONデータをadministrationTableへ設定
+引数　　　：jsonParse JSONデータ
+戻り値　　：
+*/
+function setAdministrationTable(jsonParse) {
+    let administrationTable = document.getElementById("administrationTable");
+    // console.log("jsonParse.administrationTable.length = " + jsonParse.administrationTable.length);
+    jsonParse.administrationTable.forEach((admTbl, i) => {
+        // console.log("admTbl.month          = " + admTbl.month);
+        // console.log("admTbl.date           = " + admTbl.date);
+        // console.log("admTbl.classification = " + admTbl.classification);
+        // console.log("admTbl.reason         = " + admTbl.reason);
+        (administrationTable.rows[ADMINISTRATIONTABLE_ROW_INDEX + i].cells[ADMITABLE_MONT_CELLS]).getElementsByTagName("select")[ADMITABLE_MONT_CEIDX].value = admTbl.month;
+        (administrationTable.rows[ADMINISTRATIONTABLE_ROW_INDEX + i].cells[ADMITABLE_DATE_CELLS]).getElementsByTagName("select")[ADMITABLE_DATE_CEIDX].value = admTbl.date;
+        (administrationTable.rows[ADMINISTRATIONTABLE_ROW_INDEX + i].cells[ADMITABLE_CLAS_CELLS]).getElementsByTagName("select")[0].value = admTbl.classification;
+        (administrationTable.rows[ADMINISTRATIONTABLE_ROW_INDEX + i].cells[ADMITABLE_REMA_CELLS]).getElementsByTagName("input")[0].value = admTbl.reason;
+    });
+}
+
+/*
+関数概要　：日付データの自動反映
+引数　　　：jsonParse JSONデータ
+戻り値　　：
+*/
+function autoReflectDate() {
+    let titleYear = document.getElementById("titleYear");
+    // タイトル「2020年度　年次有給休暇管理表」
+    titleYear.innerText = titleYear.innerText.replace("2020", referenceDate);
+
+    let infoTable = document.getElementById("infoTable");
+    // 基準日「基準日：2020/4/1」
+    infoTable.rows[INFOTABLE_REFE_ROWS].cells[0].innerText = infoTable.rows[INFOTABLE_REFE_ROWS].cells[0].innerText.replace("2020", referenceDate);
+    // 年度末「年度末（2021/3/31）までに、必ず、５日以上取得してください。」
+    infoTable.rows[INFOTABLE_YEAR_ROWS].cells[0].innerText = infoTable.rows[INFOTABLE_YEAR_ROWS].cells[0].innerText.replace("2021", referenceDate + 1);
+
+    let administrationTable = document.getElementById("administrationTable");
+    // 有効期限「有効期限：2021/3/31」
+    administrationTable.rows[administrationTable.rows.length - 1].cells[1].innerText = administrationTable.rows[administrationTable.rows.length - 1].cells[1].innerText.replace("2021", referenceDate + 1);
+}
